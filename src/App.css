@@ -12,3 +12,10 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+.ant-btn.ant-btn-primary.ant-btn-sm{
+  color: rgb(103, 103, 240);
+}
+
+.ant-btn.ant-btn-primary.ant-btn-sm:hover {
+color: white;}

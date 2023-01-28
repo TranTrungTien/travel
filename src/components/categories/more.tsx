@@ -1,10 +1,12 @@
-import React from "react";
 import PostCard from "../post-card";
-import { posts } from "../../model";
 
-const More = () => {
+const More = ({ relativePost }: { relativePost: any[] }) => {
+  const randomPost = relativePost
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
   const source = () =>
-    posts.map((item, index) => (
+    randomPost.slice(0, 8).map((item, index) => (
       <PostCard
         key={index}
         data={item}

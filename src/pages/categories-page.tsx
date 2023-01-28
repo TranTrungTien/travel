@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from "react";
-import Categories from "../components/categories";
-import PostCard from "../components/post-card";
-import More from "../components/categories/more";
 import { Pagination } from "antd";
-import { IPost, categories, posts } from "../model";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Categories from "../components/categories";
+import More from "../components/categories/more";
+import PostCard from "../components/post-card";
+import { ThemeContext } from "../context";
+import { IPost, categories } from "../model";
 
 const CategoriesPage = () => {
   const [postsOfCategory, setPostsOfCategory] = useState<null | IPost[]>(null);
+  const [page, setPage] = useState(5);
+  const { id } = useParams();
+
+  const { posts } = useContext(ThemeContext);
   const [category, setCategory] = useState("");
   const source = () =>
     postsOfCategory &&
-    postsOfCategory.map((item, index) => (
+    postsOfCategory.slice(0, page).map((item, index) => (
       <PostCard
         key={index}
         data={item}
@@ -26,17 +31,14 @@ const CategoriesPage = () => {
         }}
       />
     ));
-  const { id } = useParams();
   useEffect(() => {
     if (id) {
       const pOfC = posts.filter((p) => p.category === parseInt(id));
       const cate = categories.find((c) => c.value === parseInt(id));
-      console.log(pOfC);
-
       setPostsOfCategory(pOfC || null);
       setCategory(cate?.label || "");
     }
-  }, [id]);
+  }, [id, posts]);
 
   return (
     <main className="">
@@ -52,15 +54,17 @@ const CategoriesPage = () => {
             {source()}
             <div className="w-full">
               <Pagination
-                total={100}
-                current={1}
+                total={postsOfCategory?.length}
+                hideOnSinglePage
+                current={page / 5}
                 pageSize={5}
                 className="ml-auto max-w-max"
               />
             </div>
           </div>
           <div className="max-w-[calc(100%/3)]">
-            <More />
+            <h2 className="text-xl my-3">Tin liên quan</h2>
+            {postsOfCategory && <More relativePost={postsOfCategory} />}
           </div>
         </div>
       </div>

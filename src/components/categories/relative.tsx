@@ -1,15 +1,22 @@
-import React from "react";
+import { useContext } from "react";
+import { ThemeContext } from "../../context";
 import PostCard from "../post-card";
-import { posts } from "../../model";
 
 const Relative = () => {
+  const { posts } = useContext(ThemeContext);
+
+  const randomPost = posts
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+
   const source = () =>
-    posts.map((item, index) => (
+    randomPost.slice(0, 12).map((item, index) => (
       <PostCard
         data={item}
         key={index}
         options={{
-          imageStyle: "max-h-[75px]",
+          imageStyle: "max-h-[75px] min-h-[75px]",
           titleStyle: "font-medium text-sm",
           containerStyle: "flex flex-row justify-start items-start gap-x-3",
         }}

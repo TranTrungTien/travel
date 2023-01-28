@@ -1,8 +1,17 @@
 import { BarsOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Divider, Dropdown, Input, MenuProps, Popconfirm } from "antd";
-import React, { useState } from "react";
+import {
+  Button,
+  Divider,
+  Dropdown,
+  Input,
+  MenuProps,
+  Popconfirm,
+  message,
+} from "antd";
+import React, { useContext, useEffect, useState } from "react";
 import CreateNewPost from "./create-new-post";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../context";
 
 const navList = [
   {
@@ -168,10 +177,13 @@ const navList = [
 
 const Header = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const { changeLogin, login } = useContext(ThemeContext);
 
   return (
     <header className="sticky top-0 shadow-md bg-white">
-      <div className="flex justify-between items-center max-w-[60%] mx-auto">
+      <div className="flex justify-between items-center max-w-[65%] mx-auto">
         <div className="flex justify-start items-center gap-x-3">
           <div className="flex justify-start items-center gap-x-3">
             <Link to={"/"}>
@@ -184,35 +196,70 @@ const Header = () => {
           </p>
         </div>
         {/* <p className="text-blue-500">Hotline: 0123456789</p> */}
-        <button
-          className="text-lg border border-solid border-green-500 rounded px-3 py-1 text-green-500"
-          onClick={() => setOpenModal(true)}
-        >
-          Thêm bài viết mới
-        </button>
-        <Popconfirm
-          icon={<UserOutlined />}
-          className="
+        {login && (
+          <div className="space-x-3">
+            <button
+              className="text-lg border border-solid border-green-500 rounded px-3 py-1 text-green-500"
+              onClick={() => setOpenModal(true)}
+            >
+              Thêm bài viết mới
+            </button>
+            <button
+              className="text-lg border border-solid border-red-500 rounded px-3 py-1 text-red-500"
+              onClick={() => {
+                localStorage.removeItem("isLogined");
+                changeLogin(false);
+              }}
+            >
+              Đăng xuất
+            </button>
+          </div>
+        )}
+        {!login && (
+          <Popconfirm
+            icon={<UserOutlined />}
+            placement="bottom"
+            className="
           px-4
           py-2
           rounded
           text-blue-500
           border
           border-solid
-          border-blue-500"
-          okText="Đăng nhập"
-          cancelText="Hủy"
-          title={
-            <>
-              <div className="space-y-2">
-                <Input placeholder="User" />
-                <Input placeholder="Password" />
-              </div>
-            </>
-          }
-        >
-          Admin
-        </Popconfirm>
+          border-blue-500 hover:cursor-pointer"
+            okText="Đăng nhập"
+            cancelText="Hủy"
+            onConfirm={() => {
+              const userData = JSON.parse(localStorage.getItem("admin") as any);
+              if (
+                userData?.username === user &&
+                userData?.password === password
+              ) {
+                localStorage.setItem("isLogined", "true");
+                changeLogin(true);
+              } else {
+                message.error("tài khoản hoặc mật khẩu không chính xác");
+              }
+            }}
+            title={
+              <>
+                <div className="space-y-2">
+                  <Input
+                    placeholder="User"
+                    onChange={(e) => setUser(e.target.value)}
+                  />
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+              </>
+            }
+          >
+            Admin
+          </Popconfirm>
+        )}
       </div>
       <nav className="flex justify-between items-center max-w-[60%] mx-auto pr-3">
         <ul className="flex justify-around items-center flex-1">
