@@ -65,7 +65,6 @@ const CreateNewPost = ({
         getSection(section)
       );
       newPost.sections = await Promise.all(sectionsPromise);
-      console.log({ newPost });
       if (!newPost.title) return;
       setNewPost(newPost);
       message.success("Post bài thành công");

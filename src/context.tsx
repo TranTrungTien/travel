@@ -24,10 +24,10 @@ const ThemeProvider = ({ children }: IProps) => {
   const [login, setLogin] = useState(false);
   const [posts, setPosts] = useState<IPost[]>([]);
   useEffect(() => {
-    const postList = localStorage.getItem("posts");
+    const postList = sessionStorage.getItem("posts");
     postList && setPosts(JSON.parse(postList));
 
-    const isLogin = Boolean(localStorage.getItem("isLogined"));
+    const isLogin = Boolean(sessionStorage.getItem("isLogined"));
 
     setLogin(isLogin);
   }, []);
@@ -41,15 +41,17 @@ const ThemeProvider = ({ children }: IProps) => {
     } else {
       newPost = [value, ...posts];
     }
-    localStorage.setItem("posts", JSON.stringify(newPost));
+    sessionStorage.setItem("posts", JSON.stringify(newPost));
     setPosts(newPost);
   };
 
   const editPost = (post: IPost) => {
-    const posts = JSON.parse(localStorage.getItem("posts") || "{}") as IPost[];
+    const posts = JSON.parse(
+      sessionStorage.getItem("posts") || "{}"
+    ) as IPost[];
     const index = posts.findIndex((item) => item.id === post.id);
     posts[index] = post;
-    localStorage.setItem("posts", JSON.stringify(posts));
+    sessionStorage.setItem("posts", JSON.stringify(posts));
     setPosts(posts);
   };
 

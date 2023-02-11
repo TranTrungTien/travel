@@ -183,13 +183,15 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 shadow-md bg-white">
-      <div className="flex justify-between items-center max-w-[65%] mx-auto">
+      <div className="flex justify-between items-center max-w-[80%] xl:max-w-[75%] mx-auto">
         <div className="flex justify-start items-center gap-x-3">
-          <div className="flex justify-start items-center gap-x-3">
+          <div className="flex justify-start items-center gap-x-2">
             <Link to={"/"}>
               <img className="h-20" src="/images/logo.jpg" alt="" />
             </Link>
-            <p className="text-3xl text-green-600 ml-5">Lạng Sơn</p>
+            <p className="xl:text-3xl text-2xl text-green-600 xl:ml-5 ml-0 whitespace-nowrap">
+              Lạng Sơn
+            </p>
           </div>
           <p className="text-xl text-green-600 font-medium border-l-2 border-solid border-black pl-3">
             Kênh khám phá giả trí của giới trẻ, thế giới du lịch
@@ -199,15 +201,15 @@ const Header = () => {
         {login && (
           <div className="space-x-3">
             <button
-              className="text-lg border border-solid border-green-500 rounded px-3 py-1 text-green-500"
+              className="text-base border border-solid border-green-500 rounded px-3 py-1 text-green-500"
               onClick={() => setOpenModal(true)}
             >
               Thêm bài viết mới
             </button>
             <button
-              className="text-lg border border-solid border-red-500 rounded px-3 py-1 text-red-500"
+              className="text-base border border-solid border-red-500 rounded px-3 py-1 text-red-500"
               onClick={() => {
-                localStorage.removeItem("isLogined");
+                sessionStorage.removeItem("isLogined");
                 changeLogin(false);
               }}
             >
@@ -230,12 +232,14 @@ const Header = () => {
             okText="Đăng nhập"
             cancelText="Hủy"
             onConfirm={() => {
-              const userData = JSON.parse(localStorage.getItem("admin") as any);
+              const userData = JSON.parse(
+                sessionStorage.getItem("admin") as any
+              );
               if (
                 userData?.username === user &&
                 userData?.password === password
               ) {
-                localStorage.setItem("isLogined", "true");
+                sessionStorage.setItem("isLogined", "true");
                 changeLogin(true);
               } else {
                 message.error("tài khoản hoặc mật khẩu không chính xác");

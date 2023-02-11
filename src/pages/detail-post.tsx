@@ -19,7 +19,7 @@ const DetailPost = () => {
   const currentPostRef = useRef(0);
 
   useEffect(() => {
-    const hasUser = localStorage.getItem("user");
+    const hasUser = sessionStorage.getItem("user");
     hasUser && setUser(true);
   }, []);
 
@@ -91,9 +91,9 @@ const DetailPost = () => {
     e.preventDefault();
     const value = e.target.username?.value;
     const content = e.target.content.value;
-    const hasUser = localStorage.getItem("user");
+    const hasUser = sessionStorage.getItem("user");
     if (!hasUser) {
-      value && localStorage.setItem("user", value as string);
+      value && sessionStorage.setItem("user", value as string);
       setUser(true);
     }
     const p = posts.find((post) => post.id == Number(id));
@@ -120,7 +120,7 @@ const DetailPost = () => {
   return (
     <section className="my-5">
       {post ? (
-        <div className="max-w-[60%] mx-auto">
+        <div className=" max-w-[80%] xl:max-w-[75%] mx-auto">
           <div className="grid grid-cols-5">
             <div className="flex flex-col col-span-1 mt-6 max-h-min">
               {source()}

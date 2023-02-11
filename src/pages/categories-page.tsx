@@ -43,11 +43,11 @@ const CategoriesPage = () => {
   return (
     <main className="">
       <div className="w-full h-20 bg-[#efefef]">
-        <div className="mx-auto max-w-[60%] flex justify-start h-full items-center">
+        <div className="mx-auto  max-w-[80%] xl:max-w-[75%] flex justify-start h-full items-center">
           <h1 className="text-2xl font-semibold">{category}</h1>
         </div>
       </div>
-      <div className="mx-auto max-w-[60%] mb-10">
+      <div className="mx-auto  max-w-[80%] xl:max-w-[75%] mb-10">
         <Categories />
         <div className="mt-16 flex justify-between items-start">
           <div className="max-w-[calc(100%-100%/3-20px)] mr-5">

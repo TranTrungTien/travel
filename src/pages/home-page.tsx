@@ -22,7 +22,7 @@ const HomePage = () => {
     ));
   return (
     <>
-      <main className="mx-auto max-w-[60%] gap-x-8 gap-y-20 grid grid-cols-3 my-10">
+      <main className="mx-auto max-w-[80%] xl:max-w-[75%] gap-x-8 gap-y-20 grid grid-cols-3 my-10">
         {source()}
       </main>
       <div className="w-full flex justify-center mb-20">

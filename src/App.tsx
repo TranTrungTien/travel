@@ -7,11 +7,11 @@ import Routers from "./routes";
 import { posts } from "./model";
 
 function App() {
-  localStorage.setItem(
+  sessionStorage.setItem(
     "admin",
     JSON.stringify({ username: "admin", password: "admin1" })
   );
-  // localStorage.setItem("posts", JSON.stringify(posts));
+  // sessionStorage.setItem("posts", JSON.stringify(posts));
 
   return (
     <div className="w-full">
