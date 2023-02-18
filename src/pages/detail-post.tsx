@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Button, Divider, List, Result, Tooltip } from "antd";
+import { Button, Divider, List, Result, Tooltip, message } from "antd";
 import More from "../components/categories/more";
 import PostCard from "../components/post-card";
 import "antd/dist/antd.css";
 import Comment from "../components/comment";
-import { IPost, posts } from "../model";
+import { IPost } from "../model";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "../context";
 import CreateNewPost from "../components/create-new-post";
@@ -14,12 +14,12 @@ const DetailPost = () => {
   const [post, setPost] = useState<IPost | null>(null);
   const [openModal, setOpenModal] = useState(false);
 
-  const { login, setNewPost, posts } = useContext(ThemeContext);
+  const { login, posts, editPost, delPost } = useContext(ThemeContext);
   const [user, setUser] = useState(false);
   const currentPostRef = useRef(0);
 
   useEffect(() => {
-    const hasUser = sessionStorage.getItem("user");
+    const hasUser = localStorage.getItem("user");
     hasUser && setUser(true);
   }, []);
 
@@ -29,7 +29,7 @@ const DetailPost = () => {
         currentPostRef.current = Number(id);
         window.scrollTo({ top: 0 });
       }
-      const currentPost = posts.find((item) => item.id.toString() == id);
+      const currentPost = posts.find((item) => item.id?.toString() == id);
       if (currentPost) setPost(currentPost);
     }
   }, [id, posts]);
@@ -91,9 +91,13 @@ const DetailPost = () => {
     e.preventDefault();
     const value = e.target.username?.value;
     const content = e.target.content.value;
-    const hasUser = sessionStorage.getItem("user");
+    const hasUser = localStorage.getItem("user");
     if (!hasUser) {
-      value && sessionStorage.setItem("user", value as string);
+      if (!value) {
+        message.error("Vui long nhap ten");
+        return;
+      }
+      value && localStorage.setItem("user", value as string);
       setUser(true);
     }
     const p = posts.find((post) => post.id == Number(id));
@@ -103,16 +107,17 @@ const DetailPost = () => {
       time: new Date().toDateString(),
     });
     if (!p) return;
-    setNewPost(p);
+    editPost(p);
     e.target.reset();
     // console.log({ e });
   };
   const handleDeletePost = () => {
-    const newPost = posts.filter((p) => p.id.toString() !== id);
-    // console.log({ newPost });
-
-    setNewPost(newPost);
-    window.location.reload();
+    const post = posts.find((p) => p.id?.toString() === id);
+    delPost(post?.id);
+    setTimeout(() => {
+      message.success("Success!");
+      window.location.reload();
+    }, 800);
   };
   const handleEditPost = () => {
     setOpenModal(true);

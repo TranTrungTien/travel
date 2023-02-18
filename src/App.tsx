@@ -4,15 +4,16 @@ import Footer from "./components/footer";
 import Header from "./components/header";
 import TemplateProvider from "./context";
 import Routers from "./routes";
-import { posts } from "./model";
+import { useEffect } from "react";
 
 function App() {
-  sessionStorage.setItem(
-    "admin",
-    JSON.stringify({ username: "admin", password: "admin1" })
-  );
-  // sessionStorage.setItem("posts", JSON.stringify(posts));
-
+  useEffect(() => {
+    console.log("run");
+    localStorage.setItem(
+      "admin",
+      JSON.stringify({ username: "admin", password: "admin" })
+    );
+  }, []);
   return (
     <div className="w-full">
       <BrowserRouter>

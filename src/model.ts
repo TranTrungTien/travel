@@ -1,5 +1,5 @@
 export type IPost = {
-  id: number;
+  id?: number;
   title: string;
   time: string;
   category: number;
@@ -17,9 +17,9 @@ export type IComment = {
   time: string;
 };
 
-export const posts: IPost[] = [
+export const postsList: IPost[] = [
   {
-    id: 43,
+    // id: 43,
     title: "Từ A-Z kinh nghiệm du lịch Lạng Sơn - nàng thơ núi rừng Đông Bắc",
     time: "12/12/2015",
     category: 22,
@@ -65,7 +65,7 @@ export const posts: IPost[] = [
     ],
   },
   {
-    id: 434,
+    // id: 434,
     title: "Từ A-Z kinh nghiệm du lịch Lạng Sơn - nàng thơ núi rừng Đông Bắc",
     time: "12/12/2015",
     category: 22,
@@ -114,7 +114,7 @@ export const posts: IPost[] = [
     author: "Admin",
     category: 15,
     comments: [],
-    id: 38486,
+    // id: 38486,
     sections: [
       {
         title: "Những địa điểm du lịch Lạng Sơn nổi tiếng nhất",
@@ -128,7 +128,7 @@ export const posts: IPost[] = [
     title: "Kinh nghiệm du lịch Lạng Sơn 2 ngày 1 đêm chi tiết & mới nhất!",
   },
   {
-    id: 443213,
+    // id: 443213,
     title: "Từ A-Z kinh nghiệm du lịch Lạng Sơn - nàng thơ núi rừng Đông Bắc",
     time: "12/12/2015",
     category: 22,
@@ -169,7 +169,7 @@ export const posts: IPost[] = [
     ],
   },
   {
-    id: 543,
+    // id: 543,
     title: "17+ Địa điểm du lịch Lạng Sơn thú vị nhất không thể bỏ qua",
     time: "12/12/2015",
     category: 21,
@@ -228,7 +228,7 @@ export const posts: IPost[] = [
     ],
   },
   {
-    id: 654,
+    // id: 654,
     title: "17+ Địa điểm du lịch Lạng Sơn thú vị nhất không thể bỏ qua",
     time: "12/12/2015",
     category: 21,
@@ -287,7 +287,7 @@ export const posts: IPost[] = [
     ],
   },
   {
-    id: 63,
+    // id: 63,
     title: "17+ Địa điểm du lịch Lạng Sơn thú vị nhất không thể bỏ qua",
     time: "12/12/2015",
     category: 21,
@@ -346,7 +346,7 @@ export const posts: IPost[] = [
     ],
   },
   {
-    id: 209,
+    // id: 209,
     title: "Kinh nghiệm du lịch Lạng Sơn: nên ở đâu, đi lại, ăn uống, vui chơi",
     time: "12/12/2015",
     category: 21,
@@ -406,7 +406,7 @@ export const posts: IPost[] = [
     comments: [],
   },
   {
-    id: 413,
+    // id: 413,
     title: "Từ A-Z kinh nghiệm du lịch Lạng Sơn - nàng thơ núi rừng Đông Bắc",
     time: "12/12/2015",
     category: 22,
@@ -444,7 +444,7 @@ export const posts: IPost[] = [
     comments: [{ author: "Tien", content: "hallo", time: "Wed Jan 18 2023" }],
   },
   {
-    id: 3534,
+    // id: 3534,
     title: "Khám phá 10 địa điểm du lịch hấp dẫn du khách tại Lạng Sơn",
     time: "12/12/2015",
     author: "Admin",
@@ -482,7 +482,7 @@ export const posts: IPost[] = [
     comments: [],
   },
   {
-    id: 958,
+    // id: 958,
     title:
       "Con đường hạnh phúc Hà Giang: ‘Bản sắc’ của núi rừng Đông Bắc – HaloTravel",
     time: "12/12/2015",
@@ -515,7 +515,7 @@ export const posts: IPost[] = [
     comments: [],
   },
   {
-    id: 85,
+    // id: 85,
     title: "Hẻm Tu Sản: ‘Đệ nhất hùng quan’ nơi địa đầu Tổ quốc",
     time: "12/12/2015",
     author: "Admin",
@@ -553,7 +553,7 @@ export const posts: IPost[] = [
     comments: [],
   },
   {
-    id: 103,
+    // id: 103,
     title: "Địa điểm ăn uống ngon nhất Lạng Sơn",
     time: "12/12/2015",
     author: "Admin",
@@ -589,7 +589,7 @@ export const posts: IPost[] = [
     comments: [],
   },
   {
-    id: 8451,
+    // id: 8451,
     title: "Top 10 Nhà hàng, quán ăn ngon nhất tỉnh Lạng Sơn",
     time: "12/12/2015",
     author: "Admin",
@@ -618,7 +618,7 @@ export const posts: IPost[] = [
     comments: [],
   },
   {
-    id: 4324,
+    // id: 4324,
     title:
       "Top 10 nhà nghỉ Lạng Sơn đẹp giá rẻ nhất gần trung tâm nên đặt phòng",
     time: "12/12/2015",

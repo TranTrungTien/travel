@@ -52,7 +52,6 @@ const CreateNewPost = ({
         author: "",
         category: 0,
         comments: [],
-        id: getRandomInt(1, 99999),
         sections: [],
         time: new Date().toDateString(),
         title: "",
@@ -66,6 +65,7 @@ const CreateNewPost = ({
       );
       newPost.sections = await Promise.all(sectionsPromise);
       if (!newPost.title) return;
+      console.log(newPost);
       setNewPost(newPost);
       message.success("Post bài thành công");
     } else {
@@ -82,7 +82,9 @@ const CreateNewPost = ({
       editPost(editedPost);
       message.success("Edit bài thành công");
     }
-    closeModal();
+    setTimeout(() => {
+      closeModal();
+    }, 500);
   };
   const getSection = (section: any) => {
     return new Promise(async (resolve, reject) => {

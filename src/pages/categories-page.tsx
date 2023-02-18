@@ -6,31 +6,35 @@ import More from "../components/categories/more";
 import PostCard from "../components/post-card";
 import { ThemeContext } from "../context";
 import { IPost, categories } from "../model";
-
+const SIZE = 5;
 const CategoriesPage = () => {
   const [postsOfCategory, setPostsOfCategory] = useState<null | IPost[]>(null);
-  const [page, setPage] = useState(5);
+  const [page, setPage] = useState(1);
   const { id } = useParams();
 
   const { posts } = useContext(ThemeContext);
   const [category, setCategory] = useState("");
+  console.log(page * SIZE - SIZE);
+  console.log(page * SIZE);
   const source = () =>
     postsOfCategory &&
-    postsOfCategory.slice(0, page).map((item, index) => (
-      <PostCard
-        key={index}
-        data={item}
-        options={{
-          desc: {
-            isShow: true,
-            descStyle: "text-sm font-light leading-6 text-[rgb(61,69,92)] ",
-          },
-          imageStyle: "max-h-[170px] max-w-[260px]",
-          titleStyle: "mb-2 text-2xl font-bold hover:text-blue-800 ",
-          containerStyle: "flex flex-row mb-10 gap-x-4",
-        }}
-      />
-    ));
+    postsOfCategory
+      .slice(page * SIZE - SIZE, page * SIZE)
+      .map((item, index) => (
+        <PostCard
+          key={index}
+          data={item}
+          options={{
+            desc: {
+              isShow: true,
+              descStyle: "text-sm font-light leading-6 text-[rgb(61,69,92)] ",
+            },
+            imageStyle: "max-h-[170px] max-w-[260px]",
+            titleStyle: "mb-2 text-2xl font-bold hover:text-blue-800 ",
+            containerStyle: "flex flex-row mb-10 gap-x-4",
+          }}
+        />
+      ));
   useEffect(() => {
     if (id) {
       const pOfC = posts.filter((p) => p.category === parseInt(id));
@@ -56,7 +60,10 @@ const CategoriesPage = () => {
               <Pagination
                 total={postsOfCategory?.length}
                 hideOnSinglePage
-                current={page / 5}
+                current={page}
+                onChange={(currentPage) => {
+                  setPage(currentPage);
+                }}
                 pageSize={5}
                 className="ml-auto max-w-max"
               />

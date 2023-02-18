@@ -209,7 +209,7 @@ const Header = () => {
             <button
               className="text-base border border-solid border-red-500 rounded px-3 py-1 text-red-500"
               onClick={() => {
-                sessionStorage.removeItem("isLogined");
+                localStorage.removeItem("isLogined");
                 changeLogin(false);
               }}
             >
@@ -232,14 +232,13 @@ const Header = () => {
             okText="Đăng nhập"
             cancelText="Hủy"
             onConfirm={() => {
-              const userData = JSON.parse(
-                sessionStorage.getItem("admin") as any
-              );
+              const userData = JSON.parse(localStorage.getItem("admin") as any);
+              console.log(userData);
               if (
                 userData?.username === user &&
                 userData?.password === password
               ) {
-                sessionStorage.setItem("isLogined", "true");
+                localStorage.setItem("isLogined", "true");
                 changeLogin(true);
               } else {
                 message.error("tài khoản hoặc mật khẩu không chính xác");
@@ -265,7 +264,7 @@ const Header = () => {
           </Popconfirm>
         )}
       </div>
-      <nav className="flex justify-between items-center max-w-[60%] mx-auto pr-3">
+      <nav className="flex justify-between items-center max-w-[80%] xl:max-w-[75%] mx-auto pr-3">
         <ul className="flex justify-around items-center flex-1">
           {navList!.map((nav, index) => (
             <Dropdown
