@@ -1,11 +1,12 @@
-import React from "react";
+import { useContext, useState } from "react";
 import PostCard from "../components/post-card";
-import { Button } from "antd";
-import { posts } from "../model";
+import { ThemeContext } from "../context";
 
 const HomePage = () => {
+  const { posts } = useContext(ThemeContext);
+  const [page, setPage] = useState(20);
   const source = () =>
-    posts.map((item, index) => (
+    posts.slice(0, page).map((item, index) => (
       <PostCard
         key={index}
         data={item}
@@ -21,13 +22,21 @@ const HomePage = () => {
     ));
   return (
     <>
-      <main className="mx-auto max-w-[60%] gap-x-8 gap-y-20 grid grid-cols-3 my-10">
+      <main className="mx-auto max-w-[80%] xl:max-w-[75%] gap-x-8 gap-y-20 grid grid-cols-3 my-10">
         {source()}
       </main>
       <div className="w-full flex justify-center mb-20">
-        <button className="bg-blue-500 text-white px-8 py-2 rounded-md">
-          Xem thêm
-        </button>
+        {page < posts.length && (
+          <button
+            onClick={() => {
+              if (page >= posts.length) return;
+              setPage((prev) => prev + 5);
+            }}
+            className="bg-blue-500 text-white px-8 py-2 rounded-md"
+          >
+            Xem thêm
+          </button>
+        )}
       </div>
     </>
   );

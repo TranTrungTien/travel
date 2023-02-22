@@ -22,17 +22,19 @@ const PostCard = (props: IProps) => {
         props.options?.containerStyle || "max-w-[400px] flex flex-col"
       }`}
     >
-      {props.data.sections[0].image && (
-        <div className={`flex-1 ${props.options?.imageStyle} overflow-hidden`}>
-          <Link to={"/details/" + props.data.id}>
-            <img
-              src={props.data.sections[0].image}
-              alt=""
-              className={`rounded object-cover object-center w-full h-full`}
-            />
-          </Link>
-        </div>
-      )}
+      <div className={`flex-1 ${props.options?.imageStyle} overflow-hidden`}>
+        <Link to={"/details/" + props.data.id}>
+          <img
+            src={
+              props.data.sections[0].image
+                ? props.data.sections[0].image
+                : "https://lyon.palmaresdudroit.fr/images/joomlart/demo/default.jpg"
+            }
+            alt=""
+            className={`rounded object-cover object-center w-full h-full`}
+          />
+        </Link>
+      </div>
       <div className="flex-1">
         <h2
           className={`${props.options?.titleStyle} hover:underline hover:text-blue-900`}

@@ -1,23 +1,117 @@
 import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Form, Input, Modal, Select, Upload } from "antd";
-import { categories } from "../model";
+import {
+  Button,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Modal,
+  Select,
+  Upload,
+  message,
+} from "antd";
+import { IPost, categories } from "../model";
+import { getRandomInt } from "../utils";
+import { useContext, useEffect } from "react";
+import { ThemeContext } from "../context";
 
 const CreateNewPost = ({
   openModal,
+  post,
   closeModal,
 }: {
+  post?: IPost;
   openModal: boolean;
   closeModal: () => void;
 }) => {
+  const { setNewPost, editPost } = useContext(ThemeContext);
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (post) {
+      console.log({ post });
+      form.setFieldsValue({
+        ["title"]: post?.title,
+        ["category"]: post?.category,
+        ["sections"]: post?.sections,
+      });
+    }
+  }, [post]);
+
   const getFile = (e: any) => {
     if (Array.isArray(e)) {
       return e;
     }
     return e && e.fileList;
   };
-  const handleSubmit = (values: any) => {
-    console.log(form.getFieldsValue());
+  const handleSubmit = async () => {
+    const values = form.getFieldsValue();
+
+    if (!post) {
+      const newPost: IPost = {
+        author: "",
+        category: 0,
+        comments: [],
+        sections: [],
+        time: new Date().toDateString(),
+        title: "",
+      };
+      newPost.title = values?.title || "";
+      newPost.category = values?.category || 0;
+      newPost.author = "Admin";
+      const sections = values?.sections;
+      const sectionsPromise = sections.map((section: any) =>
+        getSection(section)
+      );
+      newPost.sections = await Promise.all(sectionsPromise);
+      if (!newPost.title) return;
+      console.log(newPost);
+      setNewPost(newPost);
+      message.success("Post bài thành công");
+    } else {
+      const sections = values?.sections;
+      const sectionsPromise = sections.map((section: any) =>
+        getSection(section)
+      );
+      const editedPost = {
+        ...post,
+        title: values?.title || "",
+        category: values?.category || 0,
+        sections: await Promise.all(sectionsPromise),
+      };
+      editPost(editedPost);
+      message.success("Edit bài thành công");
+    }
+    setTimeout(() => {
+      closeModal();
+    }, 500);
+  };
+  const getSection = (section: any) => {
+    return new Promise(async (resolve, reject) => {
+      const newSection = {
+        title: "",
+        content: "",
+        image: "",
+      };
+      newSection.title = section["title"] || "";
+      newSection.content = section["content"] || "";
+
+      const file = section["file"]?.[0]?.originFileObj as File | undefined;
+
+      const imageBase64 = file
+        ? ((await convertFileToBase64(file)) as string)
+        : section?.image || "";
+      newSection.image = imageBase64;
+      resolve(newSection);
+    });
+  };
+  const convertFileToBase64 = (file: File) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   };
   return (
     <Modal
@@ -51,12 +145,22 @@ const CreateNewPost = ({
         >
           <div>
             <span>Tiêu Đề Lớn</span>
-            <Form.Item name="title">
+            <Form.Item
+              name="title"
+              rules={[
+                { required: true, message: " Tiêu đề không được trống!" },
+              ]}
+            >
               <Input className="h-10" />
             </Form.Item>
           </div>
           <span>Chọn chủ đề</span>
-          <Form.Item name="type" className="w-56" label="">
+          <Form.Item
+            name="category"
+            rules={[{ required: true, message: "Chọn chủ đề!" }]}
+            className="w-56"
+            label=""
+          >
             <Select
               className="h-10"
               placeholder="Chủ đề"
@@ -72,7 +176,7 @@ const CreateNewPost = ({
                     <div className="relative">
                       <div>
                         <span>Tiêu Đề Nhỏ</span>
-                        <Form.Item name="content-title">
+                        <Form.Item name={[name, "title"]}>
                           <Input className="h-10" />
                         </Form.Item>
                       </div>
